@@ -41,7 +41,6 @@ for (const move of inputArr) {
             const diffY: number = Math.abs(headY - curY);
 
             function setTail(axis: string, input: number, diff: number): number {
-                // if (axis === twoDiffAxis) {
                 if (diff === 2) {
                     if (axis === 'x') {
                         return Math.floor((headX + curX) / 2);
