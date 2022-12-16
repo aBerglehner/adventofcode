@@ -5,7 +5,7 @@ const input = fs.readFileSync('./input.txt', 'utf8');
 
 const inputArr: string[] = input.split('\r\n');
 
-console.log(inputArr);
+console.time('time');
 
 const matrix: string[][] = inputArr.map((e) => e.split(''));
 
@@ -109,3 +109,5 @@ console.log('result: ', result);
 
 // and yes it is not an infinite loop it will finish in some min
 // so I didn't saw the point to rewrite it
+
+console.timeEnd('time');
