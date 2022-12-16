@@ -53,7 +53,7 @@ for (const [rowStart, colStart] of startPoints) {
             row: rowStart,
             col: colStart,
             steps: 0,
-            visited: new Set<string>(['r0c0']),
+            visited: new Set<string>([`r${rowStart}c${colStart}`]),
         },
     ];
 
