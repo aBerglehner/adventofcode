@@ -8,16 +8,56 @@ import java.util.stream.Collectors;
 
 
 public class Main {
+
+    private static String[] getAlphabetArr() {
+        String[] alphabet = new String[26];
+        for (int i = 0; i < 26; i++) {
+            char letter = (char) ('a' + i);
+            alphabet[i] = String.valueOf(letter);
+        }
+        return alphabet;
+    }
+
+    private static int findIndex(char searched) {
+        String[] alphabet = getAlphabetArr();
+        int index = -1;
+        for (int i = 0; i < alphabet.length; i++) {
+            if (alphabet[i].charAt(0) == searched) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    private static String getRotatedName(int sectorId, String name) {
+        String[] alphabet = getAlphabetArr();
+        int len = alphabet.length;
+        StringBuilder result = new StringBuilder();
+        for (char c : name.toCharArray()) {
+            if (c == '-') {
+                result.append(' ');
+            } else {
+                int charIndex = findIndex(c);
+                int rotatedCharIndex = (charIndex + sectorId) % len;
+                result.append(alphabet[rotatedCharIndex]);
+            }
+        }
+        return result.toString();
+    }
+
     public static void main(String[] args) throws Exception {
 //        InputStream inputStream = Main.class.getResourceAsStream("inputs/test.txt");
         InputStream inputStream = Main.class.getResourceAsStream("inputs/input.txt");
 
         if (inputStream != null) {
-            // Wrap the InputStream in a BufferedReader to read the file line by line
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            // Wrap the InputStream in a BufferedReader to read the file line by line
+
+            String[] alphabet = getAlphabetArr();
+            System.out.println("alphabet: " + Arrays.toString(alphabet));
 
             String line;
-            int sum = 0;
             while ((line = reader.readLine()) != null) {
                 // Process each line of the file
 //                    System.out.println(line);
@@ -29,46 +69,20 @@ public class Main {
                 String checksum = null;
                 Matcher matcher = pattern.matcher(line);
                 while (matcher.find()) {
-                    name = matcher.group(1).replace("-", "");
+                    name = matcher.group(1);
                     sectorId = Integer.parseInt(matcher.group(2));
                     checksum = matcher.group(3);
                 }
                 assert name != null;
-                HashMap<String, Integer> occMap = new HashMap<>();
-                Arrays.stream(name.split("")).forEach(e -> {
-                    if (!occMap.containsKey(e)) {
-                        occMap.put(e, 0);
-                    }
-                    occMap.put(e, occMap.get(e) + 1);
-                });
-
-                LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-                occMap.entrySet()
-                        .stream()
-                        .sorted((entry1, entry2) -> {
-                            int valueComparison = entry2.getValue().compareTo(entry1.getValue());
-                            return valueComparison != 0 ? valueComparison : entry1.getKey().compareTo(entry2.getKey());
-                        })
-                        .forEachOrdered(entry -> sortedMap.put(entry.getKey(), entry.getValue()));
-                StringBuilder result = new StringBuilder();
-                for (Map.Entry<String, Integer> entry : sortedMap.entrySet()) {
-                    result.append(entry.getKey());
+                String rotatedName = getRotatedName(sectorId, name);
+                if (rotatedName.contains("north")) {
+                    System.out.println();
+                    System.out.println("searched sectorId: " + sectorId);
+                    System.out.println();
                 }
-
-//                System.out.println("name: " + name);
-//                System.out.println("occMap: " + occMap);
-//                System.out.println("Sector ID: " + sectorId);
-//                System.out.println("result: " + result.toString());
-//                System.out.println("Checksum: " + checksum);
-//                System.out.println("check: " + result.toString().startsWith(checksum));
-//                System.out.println();
-                if (result.toString().startsWith(checksum)) sum += sectorId;
-
 
 //                    System.out.println("---------------------");
             }
-            System.out.println();
-            System.out.println("sum: " + sum);
 
 
             reader.close();
