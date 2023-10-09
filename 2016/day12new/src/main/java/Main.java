@@ -10,8 +10,8 @@ import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-//        InputStream inputStream = Main.class.getResourceAsStream("inputs/test.txt");
-        InputStream inputStream = Main.class.getResourceAsStream("inputs/input.txt");
+        InputStream inputStream = Main.class.getResourceAsStream("inputs/test.txt");
+//        InputStream inputStream = Main.class.getResourceAsStream("inputs/input.txt");
 
         if (inputStream != null) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
