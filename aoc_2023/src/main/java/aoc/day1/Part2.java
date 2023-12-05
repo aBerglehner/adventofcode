@@ -43,10 +43,13 @@ public class Part2 {
             }
             System.out.println();
             System.out.println("matchedDigits: " + matchedDigits);
+
             List<List<String>> filteredDigits = matchedDigits.stream().map(matches -> List.of(matches.get(0), matches.get(matches.size() - 1))).collect(Collectors.toList());
+
             System.out.println();
             System.out.println("fd: " + filteredDigits);
             System.out.println();
+
             List<String> lookup = List.of("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
             List<String> resultList = filteredDigits.stream().map(digit -> {
                 String first = digit.get(0);
@@ -58,8 +61,10 @@ public class Part2 {
 
                 return firstDigit + lastDigit;
             }).collect(Collectors.toList());
-            System.out.println(resultList);
+
+            System.out.println("resultList: " + resultList);
             System.out.println();
+
             int result = resultList.stream().mapToInt(Integer::parseInt).sum();
             System.out.println("result: " + result);
 
