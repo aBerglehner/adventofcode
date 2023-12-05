@@ -33,8 +33,10 @@ public class Part1 {
                 if (split.length == 2) {
                     String game = split[0].split(" ")[1];
                     String bag = split[1];
-//                    System.out.println("game: " + game);
-                    Map<String, Integer> collect = Arrays.stream(bag.replaceAll(";", ",").split(",")).map(String::trim).map(e -> e.split("\\s+")).collect(Collectors.toMap(e -> e[1], e -> Integer.valueOf(e[0]), Integer::max));
+                    Map<String, Integer> collect = Arrays.stream(bag.replaceAll(";", ",").split(","))
+                            .map(String::trim)
+                            .map(e -> e.split("\\s+"))
+                            .collect(Collectors.toMap(e -> e[1], e -> Integer.valueOf(e[0]), Integer::max));
 //                    System.out.println(collect);
 
                     int notValid = 0;
