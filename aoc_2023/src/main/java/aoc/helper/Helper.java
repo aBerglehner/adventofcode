@@ -25,4 +25,13 @@ public class Helper {
         return -1;
     }
 
+    public static <T> void printMatrix(List<List<T>> matrix) {
+        System.out.println();
+        System.out.println("Matrix:");
+        for (List<T> row : matrix) {
+            System.out.println(row);
+        }
+        System.out.println();
+    }
+
 }
