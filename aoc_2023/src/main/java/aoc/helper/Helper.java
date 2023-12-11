@@ -34,4 +34,12 @@ public class Helper {
         System.out.println();
     }
 
+    public static <T> void prettyPrintList(List<T> arr, String... name) {
+        System.out.println("-------------------------------------------------------------------");
+        if (name.length > 0) {
+            System.out.println(String.join(" ", name) + ":");
+        }
+        arr.forEach(System.out::println);
+        System.out.println("-------------------------------------------------------------------");
+    }
 }
