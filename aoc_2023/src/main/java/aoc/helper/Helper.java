@@ -38,7 +38,7 @@ public class Helper {
     public static <T> void prettyPrintList(List<T> arr, String... name) {
         System.out.println("-------------------------------------------------------------------");
         if (name.length > 0) {
-            System.out.println(String.join(" ", name) + ":");
+            System.out.println(String.join(" ", name) + ": " + arr.getClass().getSimpleName());
         }
         arr.forEach(System.out::println);
         System.out.println("-------------------------------------------------------------------");
@@ -47,7 +47,7 @@ public class Helper {
     public static <T, K> void prettyPrintMap(Map<T, K> map, String... name) {
         System.out.println("-------------------------------------------------------------------");
         if (name.length > 0) {
-            System.out.println(String.join(" ", name) + ":");
+            System.out.println(String.join(" ", name) + ": " + map.getClass().getSimpleName());
         }
         map.entrySet().forEach(System.out::println);
         System.out.println("-------------------------------------------------------------------");
