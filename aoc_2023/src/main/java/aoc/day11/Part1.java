@@ -46,60 +46,14 @@ public class Part1 {
             duplicateEmptyRows(emptyRows, matrix);
             Helper.prettyPrintList(matrix, "matrix after rows duplicate");
 
-            Map<String, List<Moves>> galaxiesSteps = findGalaxiesSteps(matrix);
+            Map<String, Integer> galaxiesSteps = findGalaxiesSteps(matrix);
             Helper.prettyPrintMap(galaxiesSteps, "galaxiesSteps");
             System.out.println("galaxiesSteps.size() = " + galaxiesSteps.size());
 
-
-            List<List<Integer>> galaxies = findGalaxies(matrix);
-            Helper.prettyPrintList(galaxies, "galaxies");
-//            System.out.println("galaxies.size() = " + galaxies.size());
-
-            for (List<Integer> galaxy : galaxies) {
-                Integer row = galaxy.get(0);
-                Integer col = galaxy.get(1);
-//            Integer row = 0;
-//            Integer col = 4;
-
-
-                Set<String> visited = new HashSet<>();
-                String start = "r" + row + "c" + col;
-                int steps = 0;
-                bfsDownLeft(row, col, steps, start, matrix, visited, galaxiesSteps, "downLeft");
-                bfsDownRight(row, col, steps, start, matrix, visited, galaxiesSteps, "downRight");
-                bfsUpLeft(row, col, steps, start, matrix, visited, galaxiesSteps, "upLeft");
-                bfsUpRight(row, col, steps, start, matrix, visited, galaxiesSteps, "upRight");
-//                System.out.println();
-//                System.out.println("steps = " + steps);
-//                System.out.println("start row = " + row);
-//                System.out.println("start col = " + col);
-                long endTime3 = System.currentTimeMillis();
-                long duration3 = endTime3 - startTime;
-                long seconds3 = duration3 / 1000;
-                long milliseconds3 = duration3 % 1000;
-                System.out.println("Duration after start -> " + start + ": " + seconds3 + " sec, " + milliseconds3 + " mill");
-            }
-
             System.out.println("------------------------------------------------------------------");
-            long endTime2 = System.currentTimeMillis();
-            long duration2 = endTime2 - startTime;
-            long seconds2 = duration2 / 1000;
-            long milliseconds2 = duration2 % 1000;
-            System.out.println("Duration after all visits: " + seconds2 + " sec, " + milliseconds2 + " mill");
-
-            Map<String, Moves> minStepsMoves = galaxiesSteps.entrySet().stream()
-                    .filter(entry -> entry.getValue() != null && !entry.getValue().isEmpty())
-                    .collect(Collectors.toMap(
-                            Map.Entry::getKey,
-                            entry -> entry.getValue()
-                                    .stream()
-                                    .min(Comparator.comparingInt(Moves::getSteps))
-                                    .orElse(null)
-                    ));
-            Helper.prettyPrintMap(minStepsMoves, "minStepsMoves");
-            System.out.println();
-            Integer sum = minStepsMoves.values().stream().map(Moves::getSteps).reduce(0, Integer::sum);
+            Integer sum = galaxiesSteps.values().stream().reduce(Integer::sum).orElse(0);
             System.out.println("sum = " + sum);
+            System.out.println();
 
             long endTime = System.currentTimeMillis();
             // Calculate duration in seconds and milliseconds
@@ -115,117 +69,7 @@ public class Part1 {
         }
     }
 
-
-    private static void bfsDownLeft(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
-        if (isOutOfBounce(row, col, matrix)) return;
-        String cur = "r" + row + "c" + col;
-        if (visited.size() < CAP_VISITED) {
-            path += cur;
-            if (visited.contains(path)) {
-                return;
-            }
-            visited.add(path);
-        }
-        if (isValid(row, col, steps, matrix)) {
-            addGalaxy(steps, start, galaxiesSteps, cur);
-        }
-        bfsDownLeft(row + 1, col, steps + 1, start, matrix, visited, galaxiesSteps, path);
-        bfsDownLeft(row, col - 1, steps + 1, start, matrix, visited, galaxiesSteps, path);
-    }
-
-    private static void bfsDownRight(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
-        if (isOutOfBounce(row, col, matrix)) return;
-        String cur = "r" + row + "c" + col;
-        if (visited.size() < CAP_VISITED) {
-            path += cur;
-            if (visited.contains(path)) {
-                return;
-            }
-            visited.add(path);
-        }
-        if (isValid(row, col, steps, matrix)) {
-            addGalaxy(steps, start, galaxiesSteps, cur);
-        }
-        bfsDownRight(row + 1, col, steps + 1, start, matrix, visited, galaxiesSteps, path);
-        bfsDownRight(row, col + 1, steps + 1, start, matrix, visited, galaxiesSteps, path);
-    }
-
-    private static void bfsUpLeft(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
-        if (isOutOfBounce(row, col, matrix)) return;
-        String cur = "r" + row + "c" + col;
-        if (visited.size() < CAP_VISITED) {
-            path += cur;
-            if (visited.contains(path)) {
-                return;
-            }
-            visited.add(path);
-        }
-        if (isValid(row, col, steps, matrix)) {
-            addGalaxy(steps, start, galaxiesSteps, cur);
-        }
-        bfsUpLeft(row - 1, col, steps + 1, start, matrix, visited, galaxiesSteps, path);
-        bfsUpLeft(row, col - 1, steps + 1, start, matrix, visited, galaxiesSteps, path);
-    }
-
-    private static void bfsUpRight(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
-        if (isOutOfBounce(row, col, matrix)) return;
-        String cur = "r" + row + "c" + col;
-        if (visited.size() < CAP_VISITED) {
-            path += cur;
-            if (visited.contains(path)) {
-                return;
-            }
-            visited.add(path);
-        }
-        if (isValid(row, col, steps, matrix)) {
-            addGalaxy(steps, start, galaxiesSteps, cur);
-        }
-        bfsUpRight(row - 1, col, steps + 1, start, matrix, visited, galaxiesSteps, path);
-        bfsUpRight(row, col + 1, steps + 1, start, matrix, visited, galaxiesSteps, path);
-    }
-
-    private static void addGalaxy(int steps, String start, Map<String, List<Moves>> galaxiesSteps, String cur) {
-        String galaxy = cur + "-" + start;
-        if (galaxiesSteps.containsKey(galaxy)) {
-            Moves moves = Moves.builder().steps(steps).galaxie(start).build();
-            galaxiesSteps.get(galaxy).add(moves);
-        }
-    }
-
-    private static boolean isOutOfBounce(int row, int col, List<List<String>> matrix) {
-        int rows = matrix.size();
-        int cols = matrix.get(0).size();
-        if (row < 0 || row >= rows) {
-            return true;
-        }
-        if (col < 0 || col >= cols) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean isValid(int row, int col, int steps, List<List<String>> matrix) {
-        return matrix.get(row).get(col).equals("#") && steps > 1;
-    }
-
-    private static List<List<Integer>> findGalaxies(List<List<String>> matrix) {
-        int rows = matrix.size();
-        int cols = matrix.get(0).size();
-        List<List<Integer>> result = new ArrayList<>();
-        for (int row = 0; row < rows; ++row) {
-            for (int col = 0; col < cols; ++col) {
-                if (matrix.get(row).get(col).equals("#")) {
-                    List<Integer> moves = new ArrayList<>();
-                    moves.add(row);
-                    moves.add(col);
-                    result.add(moves);
-                }
-            }
-        }
-        return result;
-    }
-
-    private static Map<String, List<Moves>> findGalaxiesSteps(List<List<String>> matrix) {
+    private static Map<String, Integer> findGalaxiesSteps(List<List<String>> matrix) {
         int rows = matrix.size();
         int cols = matrix.get(0).size();
         Map<String, List<Moves>> result = new HashMap<>();
@@ -241,15 +85,21 @@ public class Part1 {
         return getAllPairs(result);
     }
 
-    private static Map<String, List<Moves>> getAllPairs(Map<String, List<Moves>> galaxiesSteps) {
-        Map<String, List<Moves>> pairsMap = new HashMap<>();
+    private static Map<String, Integer> getAllPairs(Map<String, List<Moves>> galaxiesSteps) {
+        Map<String, Integer> pairsMap = new HashMap<>();
         Set<String> keys = galaxiesSteps.keySet();
         List<String> keysList = new ArrayList<>(keys);
         for (int i = 0; i < keysList.size(); i++) {
             for (int j = i + 1; j < keysList.size(); j++) {
+                String[] parts = keysList.get(i).substring(1).split("c");
+                int startRow = Integer.parseInt(parts[0]); // Convert the first part to an integer (the row number)
+                int startCol = Integer.parseInt(parts[1]);
+                String[] parts2 = keysList.get(j).substring(1).split("c");
+                int endRow = Integer.parseInt(parts2[0]); // Convert the first part to an integer (the row number)
+                int endCol = Integer.parseInt(parts2[1]);
+                Integer result = Math.abs(endRow - startRow) + Math.abs(endCol - startCol);
                 String pair = keysList.get(i) + "-" + keysList.get(j);
-                List<Moves> moves = new ArrayList<>();
-                pairsMap.put(pair, moves);
+                pairsMap.put(pair, result);
             }
         }
         return pairsMap;
