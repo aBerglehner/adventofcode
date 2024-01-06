@@ -9,9 +9,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Part1 {
+    final static int CAP_VISITED = 50000;
+
     public static void main(String[] args) throws Exception {
         String day = "day11";
-        InputStream inputStream = Helper.iStream(day, "test");
+//        InputStream inputStream = Helper.iStream(day, "test");
+        InputStream inputStream = Helper.iStream(day, "in");
 
         if (inputStream != null) {
             // Wrap the InputStream in a BufferedReader to read the file line by line
@@ -27,6 +30,7 @@ public class Part1 {
 
 //                    System.out.println("---------------------");
             }
+            long startTime = System.currentTimeMillis();
             System.out.println();
             Helper.prettyPrintList(matrix, "matrix");
             System.out.println();
@@ -44,31 +48,44 @@ public class Part1 {
 
             Map<String, List<Moves>> galaxiesSteps = findGalaxiesSteps(matrix);
             Helper.prettyPrintMap(galaxiesSteps, "galaxiesSteps");
+            System.out.println("galaxiesSteps.size() = " + galaxiesSteps.size());
+
+
             List<List<Integer>> galaxies = findGalaxies(matrix);
             Helper.prettyPrintList(galaxies, "galaxies");
 //            System.out.println("galaxies.size() = " + galaxies.size());
 
-
             for (List<Integer> galaxy : galaxies) {
                 Integer row = galaxy.get(0);
                 Integer col = galaxy.get(1);
+//            Integer row = 0;
+//            Integer col = 4;
+
 
                 Set<String> visited = new HashSet<>();
                 String start = "r" + row + "c" + col;
                 int steps = 0;
-                while (++steps < 100) {
-                    bfsDownLeft(row, col, steps, start, matrix, visited, galaxiesSteps, "downLeft");
-                    bfsDownRight(row, col, steps, start, matrix, visited, galaxiesSteps, "downRight");
-                    bfsUpLeft(row, col, steps, start, matrix, visited, galaxiesSteps, "upLeft");
-                    bfsUpRight(row, col, steps, start, matrix, visited, galaxiesSteps, "upRight");
-                }
+                bfsDownLeft(row, col, steps, start, matrix, visited, galaxiesSteps, "downLeft");
+                bfsDownRight(row, col, steps, start, matrix, visited, galaxiesSteps, "downRight");
+                bfsUpLeft(row, col, steps, start, matrix, visited, galaxiesSteps, "upLeft");
+                bfsUpRight(row, col, steps, start, matrix, visited, galaxiesSteps, "upRight");
 //                System.out.println();
 //                System.out.println("steps = " + steps);
 //                System.out.println("start row = " + row);
 //                System.out.println("start col = " + col);
+                long endTime3 = System.currentTimeMillis();
+                long duration3 = endTime3 - startTime;
+                long seconds3 = duration3 / 1000;
+                long milliseconds3 = duration3 % 1000;
+                System.out.println("Duration after start -> " + start + ": " + seconds3 + " sec, " + milliseconds3 + " mill");
             }
 
-//            Helper.prettyPrintMap(galaxiesSteps, "galaxiesSteps");
+            System.out.println("------------------------------------------------------------------");
+            long endTime2 = System.currentTimeMillis();
+            long duration2 = endTime2 - startTime;
+            long seconds2 = duration2 / 1000;
+            long milliseconds2 = duration2 % 1000;
+            System.out.println("Duration after all visits: " + seconds2 + " sec, " + milliseconds2 + " mill");
 
             Map<String, Moves> minStepsMoves = galaxiesSteps.entrySet().stream()
                     .filter(entry -> entry.getValue() != null && !entry.getValue().isEmpty())
@@ -80,6 +97,16 @@ public class Part1 {
                                     .orElse(null)
                     ));
             Helper.prettyPrintMap(minStepsMoves, "minStepsMoves");
+            System.out.println();
+            Integer sum = minStepsMoves.values().stream().map(Moves::getSteps).reduce(0, Integer::sum);
+            System.out.println("sum = " + sum);
+
+            long endTime = System.currentTimeMillis();
+            // Calculate duration in seconds and milliseconds
+            long duration = endTime - startTime;
+            long seconds = duration / 1000; // Convert milliseconds to seconds
+            long milliseconds = duration % 1000; // Remaining milliseconds
+            System.out.println("Duration at the end: " + seconds + " sec, " + milliseconds + " mill");
 
 
             reader.close();
@@ -88,14 +115,17 @@ public class Part1 {
         }
     }
 
+
     private static void bfsDownLeft(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
         if (isOutOfBounce(row, col, matrix)) return;
         String cur = "r" + row + "c" + col;
-        path += cur;
-        if (visited.contains(path)) {
-            return;
+        if (visited.size() < CAP_VISITED) {
+            path += cur;
+            if (visited.contains(path)) {
+                return;
+            }
+            visited.add(path);
         }
-        visited.add(path);
         if (isValid(row, col, steps, matrix)) {
             addGalaxy(steps, start, galaxiesSteps, cur);
         }
@@ -106,11 +136,13 @@ public class Part1 {
     private static void bfsDownRight(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
         if (isOutOfBounce(row, col, matrix)) return;
         String cur = "r" + row + "c" + col;
-        path += cur;
-        if (visited.contains(path)) {
-            return;
+        if (visited.size() < CAP_VISITED) {
+            path += cur;
+            if (visited.contains(path)) {
+                return;
+            }
+            visited.add(path);
         }
-        visited.add(path);
         if (isValid(row, col, steps, matrix)) {
             addGalaxy(steps, start, galaxiesSteps, cur);
         }
@@ -121,11 +153,13 @@ public class Part1 {
     private static void bfsUpLeft(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
         if (isOutOfBounce(row, col, matrix)) return;
         String cur = "r" + row + "c" + col;
-        path += cur;
-        if (visited.contains(path)) {
-            return;
+        if (visited.size() < CAP_VISITED) {
+            path += cur;
+            if (visited.contains(path)) {
+                return;
+            }
+            visited.add(path);
         }
-        visited.add(path);
         if (isValid(row, col, steps, matrix)) {
             addGalaxy(steps, start, galaxiesSteps, cur);
         }
@@ -136,11 +170,13 @@ public class Part1 {
     private static void bfsUpRight(int row, int col, int steps, String start, List<List<String>> matrix, Set<String> visited, Map<String, List<Moves>> galaxiesSteps, String path) {
         if (isOutOfBounce(row, col, matrix)) return;
         String cur = "r" + row + "c" + col;
-        path += cur;
-        if (visited.contains(path)) {
-            return;
+        if (visited.size() < CAP_VISITED) {
+            path += cur;
+            if (visited.contains(path)) {
+                return;
+            }
+            visited.add(path);
         }
-        visited.add(path);
         if (isValid(row, col, steps, matrix)) {
             addGalaxy(steps, start, galaxiesSteps, cur);
         }
@@ -149,8 +185,11 @@ public class Part1 {
     }
 
     private static void addGalaxy(int steps, String start, Map<String, List<Moves>> galaxiesSteps, String cur) {
-        Moves moves = Moves.builder().steps(steps - 1).galaxie(start).build();
-        galaxiesSteps.get(cur).add(moves);
+        String galaxy = cur + "-" + start;
+        if (galaxiesSteps.containsKey(galaxy)) {
+            Moves moves = Moves.builder().steps(steps).galaxie(start).build();
+            galaxiesSteps.get(galaxy).add(moves);
+        }
     }
 
     private static boolean isOutOfBounce(int row, int col, List<List<String>> matrix) {
@@ -199,7 +238,21 @@ public class Part1 {
                 }
             }
         }
-        return result;
+        return getAllPairs(result);
+    }
+
+    private static Map<String, List<Moves>> getAllPairs(Map<String, List<Moves>> galaxiesSteps) {
+        Map<String, List<Moves>> pairsMap = new HashMap<>();
+        Set<String> keys = galaxiesSteps.keySet();
+        List<String> keysList = new ArrayList<>(keys);
+        for (int i = 0; i < keysList.size(); i++) {
+            for (int j = i + 1; j < keysList.size(); j++) {
+                String pair = keysList.get(i) + "-" + keysList.get(j);
+                List<Moves> moves = new ArrayList<>();
+                pairsMap.put(pair, moves);
+            }
+        }
+        return pairsMap;
     }
 
     private static List<Integer> getEmptyRows(List<List<String>> matrix) {
@@ -242,7 +295,8 @@ public class Part1 {
 
     private static void duplicateEmptyCols(List<Integer> emptyCols, List<List<String>> matrix) {
         int rows = matrix.size();
-        for (Integer emptyCol : emptyCols) {
+        for (int i = emptyCols.size() - 1; i >= 0; i--) {
+            Integer emptyCol = emptyCols.get(i);
             for (int row = 0; row < rows; ++row) {
                 matrix.get(row).add(emptyCol + 1, ".");
             }
