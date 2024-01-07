@@ -9,8 +9,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Part1 {
-    final static int CAP_VISITED = 50000;
-
     public static void main(String[] args) throws Exception {
         String day = "day11";
 //        InputStream inputStream = Helper.iStream(day, "test");
