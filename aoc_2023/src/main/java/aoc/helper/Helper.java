@@ -44,6 +44,24 @@ public class Helper {
         System.out.println("-------------------------------------------------------------------");
     }
 
+    public static <T> void prettyPrintDoubleDeepList(List<List<T>> arr, String... name) {
+        System.out.println("-------------------------------------------------------------------");
+        if (name.length > 0) {
+            System.out.println(String.join(" ", name) + ": " + arr.getClass().getSimpleName());
+        }
+        for (int i = 0; i < arr.size(); i++) {
+            List<T> e = arr.get(i);
+            if (i > 0) {
+                System.out.println();
+                System.out.println("     -------------            ");
+                System.out.println();
+            }
+            System.out.println(i + 1 + ": List");
+            e.forEach(System.out::println);
+        }
+        System.out.println("-------------------------------------------------------------------");
+    }
+
     public static <T, K> void prettyPrintMap(Map<T, K> map, String... name) {
         System.out.println("-------------------------------------------------------------------");
         if (name.length > 0) {
