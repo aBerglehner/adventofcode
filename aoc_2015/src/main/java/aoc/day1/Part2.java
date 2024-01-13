@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Part1 {
+public class Part2 {
     public static void main(String[] args) throws Exception {
         String day = "day1";
         InputStream inputStream = Helper.iStream(day, "in");
@@ -19,21 +19,25 @@ public class Part1 {
 
             String line;
             int sum = 0;
+            int i = 1;
             while ((line = reader.readLine()) != null) {
                 // Process each line of the file
-                System.out.println(line);
+//                System.out.println(line);
                 for (String s : line.split("")) {
                     if (s.equals("(")) {
                         ++sum;
                     } else {
-
                         --sum;
                     }
+                    if (sum == -1) {
+                        System.out.println("result: " + i);
+                        break;
+                    }
+                    ++i;
                 }
 //                    System.out.println("---------------------");
             }
             System.out.println();
-            System.out.println("sum = " + sum);
 
 
             reader.close();
