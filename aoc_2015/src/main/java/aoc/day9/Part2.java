@@ -10,7 +10,7 @@ import java.util.*;
 public class Part2 {
     public static void main(String[] args) throws Exception {
         String day = "day9";
-        InputStream inputStream = Helper.iStream(day, "in");
+        InputStream inputStream = Helper.iStream(day, "te");
 
         if (inputStream != null) {
             // Wrap the InputStream in a BufferedReader to read the file line by line
