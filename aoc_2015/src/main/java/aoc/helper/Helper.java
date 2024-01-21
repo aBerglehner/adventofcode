@@ -3,6 +3,7 @@ package aoc.helper;
 import lombok.Getter;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
