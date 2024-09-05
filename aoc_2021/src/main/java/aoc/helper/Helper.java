@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public class Helper {
     }
 
 
-    public static <T> void prettyPrintList(List<T> arr, String... name) {
+    public static <T> void prettyPrintList(Collection<T> arr, String... name) {
         System.out.println("-------------------------------------------------------------------");
         if (name.length > 0) {
             System.out.println(String.join(" ", name) + ": " + arr.getClass().getSimpleName());
