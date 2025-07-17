@@ -42,35 +42,19 @@ func main() {
 			// rule1: if 0 -> 1
 			if key == 0 && value > 0 {
 				newStones[key] = newStones[key] - value
-
-				// _, ok := newStones[1]
-				// if !ok {
-				// 	newStones[1] = 0
-				// }
 				newStones[1] = newStones[1] + value
+
 			} else if strLen := len(strconv.Itoa(key)); value > 0 && strLen%2 == 0 {
 				// rule2: even digits -> split in middle into 2 parts -> trim leading zeroes -> math.Log10(n)
 				newStones[key] = newStones[key] - value
 				left, right := splitNumber(key, strLen)
-				// _, ok := newStones[left]
-				// if !ok {
-				// 	newStones[left] = 0
-				// }
 				newStones[left] = newStones[left] + value
-
-				// _, ok2 := newStones[right]
-				// if !ok2 {
-				// 	newStones[right] = 0
-				// }
 				newStones[right] = newStones[right] + value
+
 			} else if value > 0 {
 				// rule3: else -> digit * 2024
 				newStones[key] = newStones[key] - value
 				newV := key * 2024
-				//				_, ok2 := newStones[newV]
-				// if !ok2 {
-				// 	newStones[newV] = 0
-				// }
 				newStones[newV] = newStones[newV] + value
 			}
 		}
@@ -109,5 +93,3 @@ func copyMap(original map[int]int) map[int]int {
 	}
 	return newMap
 }
-
-// too low -> 65601038650482
