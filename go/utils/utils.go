@@ -36,3 +36,12 @@ func PrintMatrix[T any](input []T, name ...string) {
 	}
 	fmt.Println("---------------------------------")
 }
+
+type Pos struct {
+	row int
+	col int
+}
+
+func GetDis() []Pos {
+	return []Pos{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
+}
