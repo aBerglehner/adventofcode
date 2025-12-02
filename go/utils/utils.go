@@ -42,6 +42,11 @@ type Pos struct {
 	col int
 }
 
+// GetDis deprecated use GetDirs
 func GetDis() []Pos {
+	return []Pos{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
+}
+
+func GetDirs() []Pos {
 	return []Pos{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 }
