@@ -12,7 +12,7 @@ func main() {
 }
 
 func part1() {
-	data, err := utils.ReadLines("test")
+	data, err := utils.ReadLines("./day/test")
 	if err != nil {
 		log.Fatal(err)
 	}
