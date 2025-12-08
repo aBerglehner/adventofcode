@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"path/filepath"
+	"runtime"
 
 	"github.com/alex/adventofcode/go/utils"
 )
@@ -12,7 +14,11 @@ func main() {
 }
 
 func part1() {
-	data, err := utils.ReadLines("./day/test")
+	_, filename, _, _ := runtime.Caller(0)
+	baseDir := filepath.Dir(filename)
+
+	inputPath := filepath.Join(baseDir, "test")
+	data, err := utils.ReadLines(inputPath)
 	if err != nil {
 		log.Fatal(err)
 	}
