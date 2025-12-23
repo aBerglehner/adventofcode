@@ -73,3 +73,31 @@ func BenchmarkParaChunksMutex(b *testing.B) {
 
 	b.ReportMetric(nsPerOp/1e6, "ms/op")
 }
+
+func BenchmarkPart2(b *testing.B) {
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		part2()
+	}
+
+	b.StopTimer()
+
+	nsPerOp := float64(b.Elapsed().Nanoseconds()) / float64(b.N)
+
+	b.ReportMetric(nsPerOp/1e6, "ms/op")
+}
+
+func BenchmarkPart2Para(b *testing.B) {
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		part2Para()
+	}
+
+	b.StopTimer()
+
+	nsPerOp := float64(b.Elapsed().Nanoseconds()) / float64(b.N)
+
+	b.ReportMetric(nsPerOp/1e6, "ms/op")
+}
