@@ -38,8 +38,8 @@ func PrintMatrix[T any](input []T, name ...string) {
 }
 
 type Pos struct {
-	row int
-	col int
+	Row int
+	Col int
 }
 
 // GetDis deprecated use GetDirs
@@ -49,6 +49,10 @@ func GetDis() []Pos {
 
 func GetDirs() []Pos {
 	return []Pos{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
+}
+
+func GetDirsAlsoDiagonal() []Pos {
+	return []Pos{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}}
 }
 
 func SplitTasks[T any](tasks []T, n int) [][]T {
