@@ -1,3 +1,3 @@
 #!/bin/bash
 
-go run day5/part.go
+go run day6/part.go
